@@ -46,6 +46,8 @@
 		}
 	</script>
 	<script>
+		var recordIsValid = false;
+
 		document.getElementById("btn-generate").onclick = generateJson;
 		document.getElementById("btn-download").onclick = downloadJson;
 		document.getElementById("btn-clear").onclick = function() {
@@ -53,19 +55,27 @@
 		};
 
 		function generateJson() {
-			var data = bf.getData();
-			document.getElementById("json-result").innerHTML = JSON.stringify(data, null, 4);
+			recordIsValid = bf.validate();
+
+			if(recordIsValid) {
+				var data = bf.getData();
+				document.getElementById("json-result").innerHTML = JSON.stringify(data, null, 4);
+			}
+			else document.getElementById("json-result").innerHTML = "Record does not match schema.";
 		}
 		function downloadJson() {
 			generateJson();
-			var data = bf.getData();
 
-			var a = window.document.createElement("a");
-			a.href = window.URL.createObjectURL(new Blob([JSON.stringify(data, null, 4)], {type: "text/plain"}));
-			a.download = document.getElementById("BrutusinForms#0_0").value + ".json";
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
+			if(recordIsValid) {
+				var data = bf.getData();
+
+				var a = window.document.createElement("a");
+				a.href = window.URL.createObjectURL(new Blob([JSON.stringify(data, null, 4)], {type: "text/plain"}));
+				a.download = document.getElementById("BrutusinForms#0_0").value + ".json";
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+			}
 		}
 	</script>
 </body>
