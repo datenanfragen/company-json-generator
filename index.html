@@ -22,6 +22,7 @@
 				<button id="btn-download" type="button" class="btn btn-success">Download</button>
 				<button id="btn-clear" type="button" class="btn btn-danger">Clear</button>
 				<pre id="json-result" style="width: 100%; min-height: 250px; margin-top: 15px;">Generated JSON will be displayed here</pre>
+				<p><strong>Hint:</strong> To prefill future records, set the cookie <code>record_template</code> and fill it with a JSON of the values you want prefilled. <a onclick="if(confirm('Do you really want to delete the current template? This cannot be undone.')) Cookies.remove('record_template');">Delete current template</a></p>
 			</div>
 		</div>
 	</div>
@@ -29,6 +30,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/gh/brutusin/json-forms@1.6.3/dist/js/brutusin-json-forms.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/gh/brutusin/json-forms@1.6.3/dist/js/brutusin-json-forms-bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 	<script>
 		var bf;
 
@@ -36,14 +38,25 @@
 		fetch(schema_url)
 		.then(res => res.json())
 		.then((out) => { loadSchema(out); })
-		.catch(err => { throw err; })
+		.catch(err => { throw err; });
 
 		function loadSchema(schema) {
 			var BrutusinForms = brutusin["json-forms"];
 			BrutusinForms.addDecorator(function(element, schema) {element.placeholder = '';});
 			bf = BrutusinForms.create(schema);
 			var container = document.getElementById("company-form");
-			bf.render(container, {});
+
+			var template;
+			try {
+				var cookie = Cookies.get('record_template');
+				template = cookie ? JSON.parse(cookie) : {}
+			}
+			catch(e) {
+				template = {};
+				console.error('Failed to parse JSON template.', e);
+			}
+
+			bf.render(container, template);
 		}
 	</script>
 	<script>
@@ -52,17 +65,19 @@
 		document.getElementById("btn-generate").onclick = generateJson;
 		document.getElementById("btn-download").onclick = downloadJson;
 		document.getElementById("btn-clear").onclick = function() {
-			if(confirm('Do you really want to clear everything?')) window.location.reload(false); 
+			if(confirm('Do you really want to clear everything?')) window.location.reload(false);
 		};
 
 		function generateJson() {
 			recordIsValid = bf.validate();
 
-			if(recordIsValid) {
-				var data = bf.getData();
-				document.getElementById("json-result").innerHTML = JSON.stringify(data, null, 4);
+			var data = bf.getData();
+
+			if(recordIsValid) document.getElementById("json-result").textContent = JSON.stringify(data, null, 4);
+			else {
+				document.getElementById("json-result").textContent = "Warning: Invalid record!\n\n" + JSON.stringify(data, null, 4);
+				alert("Warning: Record is not valid! Please correct before submitting.");
 			}
-			else document.getElementById("json-result").innerHTML = "Record does not match schema.";
 		}
 		function downloadJson() {
 			generateJson();
