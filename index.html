@@ -96,6 +96,12 @@
 			    event.preventDefault();
 			    if (event.keyCode === 13 && confirm('Set suggested transport medium to email?')) getInputForLabelText('Suggested transport medium:').value = 'email';
 			});
+
+			// Add slug helper
+			getInputForLabelText('Website:').addEventListener("keyup", function(event) {
+			    event.preventDefault();
+			    if (event.keyCode === 13 && confirm('Guess slug?')) getInputForLabelText('Slug:').value = (new URL(getInputForLabelText('Website:').value)).hostname.replace('www.', '').replace(/[^a-z0-9]/g, '-');
+			});
 		}
 	</script>
 	<script>
