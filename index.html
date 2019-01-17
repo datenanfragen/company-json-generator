@@ -31,6 +31,7 @@
 	<script src="https://cdn.jsdelivr.net/gh/brutusin/json-forms@1.6.3/dist/js/brutusin-json-forms.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/gh/brutusin/json-forms@1.6.3/dist/js/brutusin-json-forms-bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/libphonenumber-js@1.7.7/bundle/libphonenumber-max.js"></script>
 	<script>
 		var bf;
 
@@ -57,6 +58,34 @@
 			}
 
 			bf.render(container, template);
+
+			// Add phone and fax number helpers
+			var inputs = [document.getElementById($("label:contains('Phone:')").attr('for')), document.getElementById($("label:contains('Fax:')").attr('for'))];
+			inputs.forEach( function(element) {
+				element.parentNode.style.position = 'relative';
+				var link = document.createElement('a');
+				link.textContent = 'f';
+				link.style.position = 'absolute';
+				link.style.top = '12px';
+				link.style.right = '12px';
+				link.style.fontSize = '16px';
+				link.title = 'Format number';
+
+				var formatPhoneNumber = function() {
+					element.value = new libphonenumber.parsePhoneNumberFromString(element.value, prompt('Enter a fallback country (as an ISO 3166-1 alpha-2 country code).').toUpperCase()).formatInternational();
+				}
+
+				link.onclick = formatPhoneNumber;
+
+				element.addEventListener("keyup", function(event) {
+				    event.preventDefault();
+				    if (event.keyCode === 13) {
+				        formatPhoneNumber();
+				    }
+				});
+
+				element.parentNode.appendChild(link);
+			});
 		}
 	</script>
 	<script>
