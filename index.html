@@ -33,6 +33,10 @@
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/libphonenumber-js@1.7.7/bundle/libphonenumber-max.js"></script>
 	<script>
+		function getInputForLabelText(label_text) {
+			return document.getElementById($("label:contains('" + label_text + "')").attr('for'));
+		}
+
 		var bf;
 
 		var schema_url = "https://raw.githubusercontent.com/datenanfragen/companies/master/schema.json";
@@ -60,7 +64,7 @@
 			bf.render(container, template);
 
 			// Add phone and fax number helpers
-			var inputs = [document.getElementById($("label:contains('Phone:')").attr('for')), document.getElementById($("label:contains('Fax:')").attr('for'))];
+			var inputs = [getInputForLabelText('Phone:'), getInputForLabelText('Fax:')];
 			inputs.forEach( function(element) {
 				element.parentNode.style.position = 'relative';
 				var link = document.createElement('a');
@@ -85,6 +89,12 @@
 				});
 
 				element.parentNode.appendChild(link);
+			});
+
+			// Add email helper
+			getInputForLabelText('Email:').addEventListener("keyup", function(event) {
+			    event.preventDefault();
+			    if (event.keyCode === 13 && confirm('Set suggested transport medium to email?')) getInputForLabelText('Suggested transport medium:').value = 'email';
 			});
 		}
 	</script>
