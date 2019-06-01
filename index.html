@@ -22,6 +22,8 @@
 				<button id="btn-download" type="button" class="btn btn-success">Download</button>
 				<button id="btn-clear" type="button" class="btn btn-danger">Clear</button>
 				<pre id="json-result" style="width: 100%; min-height: 250px; margin-top: 15px;">Generated JSON will be displayed here</pre>
+				<p><strong>Hint:</strong> To load an existing record, pass it as the URL-encoded <code>doc</code> fragment parameter like this:
+				<br><code>https://company-json.netlify.com/#!doc=%7B%22slug%22%3A%20%22datenanfragen%22%7D</code></p>
 				<p><strong>Hint:</strong> To prefill future records, set the cookie <code>record_template</code> and fill it with a JSON of the values you want prefilled. <a onclick="if(confirm('Do you really want to delete the current template? This cannot be undone.')) Cookies.remove('record_template');">Delete current template</a></p>
 			</div>
 		</div>
@@ -35,6 +37,22 @@
 	<script>
 		function getInputForLabelText(label_text) {
 			return document.getElementById($("label:contains('" + label_text + "')").attr('for'));
+		}
+
+		// Adapted after: https://gist.github.com/miohtama/1570295
+		function parseFragmentArgs(url) {
+			url = url || window.location.href;
+			var vars = {};
+			var hashes = url.slice(url.indexOf('#!') + 2).split('&');
+
+			for (var i = 0; i < hashes.length; i++) {
+				var hash = hashes[i].split('=');
+
+				if (hash.length > 1) vars[hash[0]] = decodeURIComponent(hash[1]);
+				else vars[hash[0]] = null;
+			}
+
+			return vars;
 		}
 
 		var bf;
@@ -52,13 +70,15 @@
 			var container = document.getElementById("company-form");
 
 			var template;
+
 			try {
-				var cookie = Cookies.get('record_template');
-				template = cookie ? JSON.parse(cookie) : {}
+				var json = parseFragmentArgs().doc || Cookies.get('record_template');
+				console.log(json)
+				template = json ? JSON.parse(json) : {}
 			}
 			catch(e) {
 				template = {};
-				console.error('Failed to parse JSON template.', e);
+				console.error('Failed to parse JSON doc or template.', e);
 			}
 
 			bf.render(container, template);
