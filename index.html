@@ -63,6 +63,10 @@
 			return document.getElementById($("label:contains('" + label_text + "')").attr('for'));
 		}
 
+		function triggerOnChange(element) {
+			element.dispatchEvent(new Event('change', { bubbles: true }));
+		}
+
 		// Adapted after: https://gist.github.com/miohtama/1570295
 		function parseFragmentArgs(url) {
 			url = url || window.location.href;
@@ -120,6 +124,7 @@
 
 				var formatPhoneNumber = function () {
 					element.value = new libphonenumber.parsePhoneNumberFromString(element.value, prompt('Enter a fallback country (as an ISO 3166-1 alpha-2 country code).').toUpperCase()).formatInternational();
+					triggerOnChange(element);
 				}
 
 				link.onclick = formatPhoneNumber;
@@ -137,13 +142,21 @@
 			// Add email helper
 			getInputForLabelText('Email:').addEventListener("keyup", function (event) {
 				event.preventDefault();
-				if (event.keyCode === 13 && confirm('Set suggested transport medium to email?')) getInputForLabelText('Suggested transport medium:').value = 'email';
+				if (event.keyCode === 13 && confirm('Set suggested transport medium to email?')) {
+					var element = getInputForLabelText('Suggested transport medium:');
+					element.value = 'email';
+					triggerOnChange(element);
+				}
 			});
 
 			// Add slug helper
 			getInputForLabelText('Website:').addEventListener("keyup", function (event) {
 				event.preventDefault();
-				if (event.keyCode === 13 && confirm('Guess slug?')) getInputForLabelText('Slug:').value = (new URL(getInputForLabelText('Website:').value)).hostname.replace('www.', '').replace(/[^a-z0-9]/g, '-');
+				if (event.keyCode === 13 && confirm('Guess slug?')) {
+					var element = getInputForLabelText('Slug:');
+					element.value = (new URL(getInputForLabelText('Website:').value)).hostname.replace('www.', '').replace(/[^a-z0-9]/g, '-');
+					triggerOnChange(element);
+				}
 			});
 		}
 	</script>
