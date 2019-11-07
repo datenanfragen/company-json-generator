@@ -38,14 +38,14 @@
 				<button id="btn-clear" type="button" class="btn btn-danger">Clear</button>
 				<pre id="json-result"
 					style="width: 100%; min-height: 250px; margin-top: 15px;">Generated JSON will be displayed here</pre>
-				<p><strong>Hint:</strong> To load an existing record, pass it as the URL-encoded <code>doc</code>
-					fragment parameter like this:
-					<br><code>https://company-json.netlify.com/#!doc=%7B%22slug%22%3A%20%22datenanfragen%22%7D</code>
-				</p>
-				<p><strong>Hint:</strong> To prefill future records, set the cookie <code>record_template</code> and
-					fill it with a JSON of the values you want prefilled. <a
-						onclick="if(confirm('Do you really want to delete the current template? This cannot be undone.')) Cookies.remove('record_template');">Delete
-						current template</a></p>
+				<h2 style="font-size: 1.5em;">Hints</h2>
+				<ul>
+					<li>To load an existing record, pass it as the URL-encoded <code>doc</code> fragment parameter like this:<br><code>https://company-json.netlify.com/#!doc=%7B%22slug%22%3A%20%22datenanfragen%22%7D</code></li>
+					<li>To prefill future records, set the cookie <code>record_template</code> and fill it with a JSON of the values you want prefilled.<br><a onclick="if(confirm('Do you really want to delete the current template? This cannot be undone.')) Cookies.remove('record_template');">Delete current template</a></li>
+					<li>In the phone and fax inputs, press <em>Enter</em> or click the <em>f</em> button to format the respective number.</code></li>
+					<li>In the website input, press enter to have a slug suggested.</code></li>
+					<li>In the email input, press enter to set the suggested transport medium to email.</code></li>
+				</ul>
 			</div>
 		</div>
 	</div>
