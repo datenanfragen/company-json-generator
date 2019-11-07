@@ -43,7 +43,7 @@
 					<li>To load an existing record, pass it as the URL-encoded <code>doc</code> fragment parameter like this:<br><code>https://company-json.netlify.com/#!doc=%7B%22slug%22%3A%20%22datenanfragen%22%7D</code></li>
 					<li>To prefill future records, set the cookie <code>record_template</code> and fill it with a JSON of the values you want prefilled.<br><a onclick="if(confirm('Do you really want to delete the current template? This cannot be undone.')) Cookies.remove('record_template');">Delete current template</a></li>
 					<li>In the phone and fax inputs, press <em>Enter</em> or click the <em>f</em> button to format the respective number.</code></li>
-					<li>In the website input, press enter to have a slug suggested.</code></li>
+					<li>In the name or website input, press enter to have a slug suggested.</code></li>
 					<li>In the email input, press enter to set the suggested transport medium to email.</code></li>
 				</ul>
 			</div>
@@ -149,12 +149,20 @@
 				}
 			});
 
-			// Add slug helper
+			// Add slug helpers
 			getInputForLabelText('Website:').addEventListener("keyup", function (event) {
 				event.preventDefault();
 				if (event.keyCode === 13 && confirm('Guess slug?')) {
 					var element = getInputForLabelText('Slug:');
 					element.value = (new URL(getInputForLabelText('Website:').value)).hostname.replace('www.', '').replace(/[^a-z0-9]/g, '-');
+					triggerOnChange(element);
+				}
+			});
+			getInputForLabelText('Name:').addEventListener("keyup", function (event) {
+				event.preventDefault();
+				if (event.keyCode === 13 && confirm('Guess slug?')) {
+					var element = getInputForLabelText('Slug:');
+					element.value = getInputForLabelText('Name:').value.toLowerCase().replace(/[^a-z0-9]/g, '-');
 					triggerOnChange(element);
 				}
 			});
