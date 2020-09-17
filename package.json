@@ -1,0 +1,22 @@
+{
+    "name": "company-json-generator",
+    "version": "1.0.0",
+    "description": "A simple company record JSON generator for the Datenanfragen.de company database.",
+    "repository": "https://github.com/datenanfragen/company-json-generator.git",
+    "author": "Benjamin Altpeter <hi@bn.al>",
+    "license": "MIT",
+    "devDependencies": {
+        "parcel-bundler": "^1.12.4"
+    },
+    "scripts": {
+        "dev": "parcel src/*.html",
+        "build": "parcel build src/*.html"
+    },
+    "dependencies": {
+        "bootstrap": "3",
+        "brutusin-json-forms": "^0.0.0",
+        "jquery": "^3.5.1",
+        "js-cookie": "^2.2.1",
+        "libphonenumber-js": "^1.7.58"
+    }
+}

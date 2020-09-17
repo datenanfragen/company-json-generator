@@ -2,17 +2,16 @@
 
 >This repository contains the source code for the tool to generate valid JSON records for the Datenanfragen.de company database.
 
-Datenanfragen.de is an open source project by [Datenanfragen.de e.&nbsp;V.](https://verein.datenanfragen.de), a registered non-profit from Germany. We have made it our mission to help you exercise your right to privacy.  
+Datenanfragen.de is an open source project by [Datenanfragen.de e.&nbsp;V.](https://www.datarequests.org/verein), a registered non-profit from Germany. We have made it our mission to help you exercise your right to privacy.  
 Through our website, we offer a generator for GDPR requests as well as access to our company and supervisory authority database (see [this repository](https://github.com/datenanfragen/data/) for the source behind this data) and comprehensive articles on the GDPR and privacy in general.
 
-Every company (or other organization) in our database is represented by a single JSON file (named after the slug in the JSON). The JSON has to follow the specific schema. This tool provides you the convinience to generate those JSONs by filling a simple form.
-Format in which data can be filled in the form is provided [here](https://github.com/datenanfragen/data/#data-formats).
+Every company (or other organization) in our database is represented by a single JSON file (named after the slug in the JSON). The JSON has to follow the specific schema. This tool provides you the convinience to generate those JSONs by filling a simple form. The format is explained [here](https://github.com/datenanfragen/data/#data-formats).
 
-[![screenshot of the tool](https://i.postimg.cc/zXtnPVnY/screencapture-company-json-netlify-2019-10-29-17-22-06.png)](https://postimg.cc/SJ92nQTg)
+![Screenshot of the tool](https://static.dacdn.de/other/screenshot-company-json.png)
 
-You can check this tool [here](https://company-json.netlify.com/). 
+Use it [here](https://company-json.netlify.app/). 
 
-Our company database holds the contact information of many companies (as well as other organisations) for your privacy-related requests. You can visit our company database (in [English](https://www.datarequests.org/company) and [German](https://www.datenanfragen.de/compan)) on our homepage.
+Our company database holds the contact information of many companies (as well as other organisations) for your privacy-related requests. You can visit our company database on our [homepage](https://www.datarequests.org/company).
 
 ## Contributing
 
