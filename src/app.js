@@ -156,7 +156,7 @@ function downloadJson() {
         var data = bf.getData();
 
         var a = window.document.createElement('a');
-        a.href = window.URL.createObjectURL(new Blob([JSON.stringify(data, null, 4) + '\n\n'], { type: 'text/plain' }));
+        a.href = window.URL.createObjectURL(new Blob([`${JSON.stringify(data, null, 4)}\n`], { type: 'text/plain' }));
         a.download = document.getElementById('BrutusinForms#0_0').value + '.json';
         document.body.appendChild(a);
         a.click();
