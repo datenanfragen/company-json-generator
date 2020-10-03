@@ -136,6 +136,10 @@ document.getElementById('btn-clear').onclick = function () {
         window.location.reload(false);
     }
 };
+document.getElementById('btn-copy').onclick = function () {
+    generateJson();
+    if (recordIsValid) navigator.clipboard.writeText(JSON.stringify(bf.getData(), null, 4) + '\n');
+}
 
 function generateJson() {
     recordIsValid = bf.validate();
