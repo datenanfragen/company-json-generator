@@ -94,7 +94,7 @@ function loadSchema(schema) {
             element.value = new parsePhoneNumberFromString(
                 element.value,
                 prompt(
-                    'Enter a fallback country (as an ISO 3166-1 alpha-2 country code), e.g. "FR", "GB", or "DE".'
+                    'Enter a fallback country (as an ISO 3166-1 alpha-2 country code), e.g. "fr", "gb", or "de".'
                 ).toUpperCase()
             ).formatInternational();
             triggerOnChange(element);
