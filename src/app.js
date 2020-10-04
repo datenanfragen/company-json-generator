@@ -4,7 +4,24 @@ require('bootstrap');
 require('brutusin-json-forms');
 require('brutusin-json-forms/dist/js/brutusin-json-forms-bootstrap');
 import Cookie from 'js-cookie';
-import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import {parsePhoneNumberFromString} from 'libphonenumber-js';
+
+class InvalidCompanyRecord extends Error {
+    constructor(msg="InvalidCompanyRecord") {
+        super(msg);
+        this.name = "InvalidCompanyRecord"
+    }
+}
+
+function errorhandler(err, data) {
+    if (err instanceof InvalidCompanyRecord) {
+        document.getElementById('json-result').textContent =
+            'Warning: Invalid record!\n\n' + JSON.stringify(data, null, 4);
+        alert('Warning: Record is not valid! Please correct before submitting.');
+    } else {
+        throw err;
+    }
+}
 
 function getInputForLabelText(label_text) {
     return document.getElementById(jQuery("label:contains('" + label_text + "')").attr('for'));
@@ -126,9 +143,13 @@ function loadSchema(schema) {
     });
 }
 
-var recordIsValid = false;
-
-document.getElementById('btn-generate').onclick = generateJson;
+document.getElementById('btn-generate').onclick = function () {
+    try {
+        displayJson(generateJson())
+    } catch (err) {
+        errorhandler(err)
+    }
+};
 document.getElementById('btn-download').onclick = downloadJson;
 document.getElementById('btn-clear').onclick = function () {
     if (confirm('Do you really want to clear everything?')) {
@@ -137,14 +158,19 @@ document.getElementById('btn-clear').onclick = function () {
     }
 };
 document.getElementById('btn-copy').onclick = function () {
-    generateJson();
-    if (recordIsValid) navigator.clipboard.writeText(JSON.stringify(bf.getData(), null, 4) + '\n');
+    try {
+        const json = generateJson();
+        displayJson(json);
+        navigator.clipboard.writeText(json + '\n');
+    } catch (err) {
+        errorhandler(err)
+    }
 }
 
 function generateJson() {
-    recordIsValid = bf.validate();
+    if (!bf.validate()) throw new InvalidCompanyRecord();
 
-    var data = bf.getData();
+    let data = bf.getData();
     // trim the values of data that are strings
     Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string') {
@@ -155,26 +181,25 @@ function generateJson() {
         // trim every line of the address
         data.address = data.address.split('\n').map(line => line.trim()).join('\n');
     }
+    return JSON.stringify(data, null, 4);
+}
 
-    if (recordIsValid) document.getElementById('json-result').textContent = JSON.stringify(data, null, 4);
-    else {
-        document.getElementById('json-result').textContent =
-            'Warning: Invalid record!\n\n' + JSON.stringify(data, null, 4);
-        alert('Warning: Record is not valid! Please correct before submitting.');
-    }
+function displayJson(json) {
+    document.getElementById('json-result').textContent = json;
 }
 
 function downloadJson() {
-    generateJson();
-
-    if (recordIsValid) {
-        var data = bf.getData();
-
-        var a = window.document.createElement('a');
-        a.href = window.URL.createObjectURL(new Blob([`${JSON.stringify(data, null, 4)}\n`], { type: 'text/plain' }));
+    let data
+    try {
+        data = generateJson();
+        displayJson(data);
+        const a = window.document.createElement('a');
+        a.href = window.URL.createObjectURL(new Blob([`${data}\n`], {type: 'text/plain'}));
         a.download = document.getElementById('BrutusinForms#0_0').value + '.json';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+    } catch (err) {
+        errorhandler(err, data);
     }
 }
