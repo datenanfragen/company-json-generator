@@ -145,6 +145,16 @@ function generateJson() {
     recordIsValid = bf.validate();
 
     var data = bf.getData();
+    // trim the values of data that are strings
+    Object.keys(data).forEach(key => {
+        if (typeof data[key] === 'string') {
+            data[key] = data[key].trim()
+        }
+    });
+    if (data.address) {
+        // trim every line of the address
+        data.address = data.address.split('\n').map(line => line.trim()).join('\n');
+    }
 
     if (recordIsValid) document.getElementById('json-result').textContent = JSON.stringify(data, null, 4);
     else {
@@ -153,6 +163,7 @@ function generateJson() {
         alert('Warning: Record is not valid! Please correct before submitting.');
     }
 }
+
 function downloadJson() {
     generateJson();
 
