@@ -4,12 +4,12 @@ require('bootstrap');
 require('brutusin-json-forms');
 require('brutusin-json-forms/dist/js/brutusin-json-forms-bootstrap');
 import Cookie from 'js-cookie';
-import {parsePhoneNumberFromString} from 'libphonenumber-js';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 class InvalidCompanyRecord extends Error {
-    constructor(msg="InvalidCompanyRecord") {
+    constructor(msg = 'InvalidCompanyRecord') {
         super(msg);
-        this.name = "InvalidCompanyRecord"
+        this.name = 'InvalidCompanyRecord';
     }
 }
 
@@ -93,7 +93,9 @@ function loadSchema(schema) {
         var formatPhoneNumber = function () {
             element.value = new parsePhoneNumberFromString(
                 element.value,
-                prompt('Enter a fallback country (as an ISO 3166-1 alpha-2 country code), e.g. "FR", "GB", or "DE".').toUpperCase()
+                prompt(
+                    'Enter a fallback country (as an ISO 3166-1 alpha-2 country code), e.g. "FR", "GB", or "DE".'
+                ).toUpperCase()
             ).formatInternational();
             triggerOnChange(element);
         };
@@ -145,9 +147,9 @@ function loadSchema(schema) {
 
 document.getElementById('btn-generate').onclick = function () {
     try {
-        displayJson(generateJson())
+        displayJson(generateJson());
     } catch (err) {
-        errorhandler(err)
+        errorhandler(err);
     }
 };
 document.getElementById('btn-download').onclick = downloadJson;
@@ -163,23 +165,26 @@ document.getElementById('btn-copy').onclick = function () {
         displayJson(json);
         navigator.clipboard.writeText(json + '\n');
     } catch (err) {
-        errorhandler(err)
+        errorhandler(err);
     }
-}
+};
 
 function generateJson() {
     if (!bf.validate()) throw new InvalidCompanyRecord();
 
     let data = bf.getData();
     // trim the values of data that are strings
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach((key) => {
         if (typeof data[key] === 'string') {
-            data[key] = data[key].trim()
+            data[key] = data[key].trim();
         }
     });
     if (data.address) {
         // trim every line of the address
-        data.address = data.address.split('\n').map(line => line.trim()).join('\n');
+        data.address = data.address
+            .split('\n')
+            .map((line) => line.trim())
+            .join('\n');
     }
     return JSON.stringify(data, null, 4);
 }
@@ -189,12 +194,12 @@ function displayJson(json) {
 }
 
 function downloadJson() {
-    let data
+    let data;
     try {
         data = generateJson();
         displayJson(data);
         const a = window.document.createElement('a');
-        a.href = window.URL.createObjectURL(new Blob([`${data}\n`], {type: 'text/plain'}));
+        a.href = window.URL.createObjectURL(new Blob([`${data}\n`], { type: 'text/plain' }));
         a.download = document.getElementById('BrutusinForms#0_0').value + '.json';
         document.body.appendChild(a);
         a.click();
