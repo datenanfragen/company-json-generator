@@ -93,7 +93,7 @@ function loadSchema(schema) {
         var formatPhoneNumber = function () {
             element.value = new parsePhoneNumberFromString(
                 element.value,
-                prompt('Enter a fallback country (as an ISO 3166-1 alpha-2 country code).').toUpperCase()
+                prompt('Enter a fallback country (as an ISO 3166-1 alpha-2 country code), e.g. "FR", "GB", or "DE".').toUpperCase()
             ).formatInternational();
             triggerOnChange(element);
         };
