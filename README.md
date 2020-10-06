@@ -24,4 +24,4 @@ Please be aware that by contributing, you agree for your work to be released und
 If you are interested in contributing in other ways besides coding, we can also really use your help. Have a look at our [contribute page](https://www.datarequests.org/contribute) for more details.
 
 ## License
-View the LICENSE [here](hhttps://github.com/manishgautam30/company-json-generator/blob/master/LICENSE/).
+View the LICENSE [here](https://github.com/manishgautam30/company-json-generator/blob/master/LICENSE/).
