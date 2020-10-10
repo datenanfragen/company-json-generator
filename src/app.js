@@ -171,11 +171,9 @@ document.getElementById('btn-copy').onclick = function () {
 };
 
 function generateJson() {
-    if (!bf.validate()) throw new InvalidCompanyRecord(bf.getData());
-
     let data = bf.getData();
-    // trim the values of data that are strings
     Object.keys(data).forEach((key) => {
+        // trim the values of data that are strings
         if (typeof data[key] === 'string') {
             data[key] = data[key].trim();
         }
@@ -187,6 +185,7 @@ function generateJson() {
             .map((line) => line.trim())
             .join('\n');
     }
+    if (!bf.validate()) throw new InvalidCompanyRecord(data);
     return JSON.stringify(data, null, 4);
 }
 
