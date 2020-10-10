@@ -7,16 +7,17 @@ import Cookie from 'js-cookie';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 class InvalidCompanyRecord extends Error {
-    constructor(msg = 'InvalidCompanyRecord') {
-        super(msg);
+    constructor(json) {
+        super('InvalidCompanyRecord');
+        this.json = json;
         this.name = 'InvalidCompanyRecord';
     }
 }
 
-function errorhandler(err, data) {
+function errorHandler(err) {
     if (err instanceof InvalidCompanyRecord) {
         document.getElementById('json-result').textContent =
-            'Warning: Invalid record!\n\n' + JSON.stringify(data, null, 4);
+            "Warning: Invalid record!\nWon't copy/download! \n\n" + JSON.stringify(err.json, null, 4);
         alert('Warning: Record is not valid! Please correct before submitting.');
     } else {
         throw err;
@@ -149,7 +150,7 @@ document.getElementById('btn-generate').onclick = function () {
     try {
         displayJson(generateJson());
     } catch (err) {
-        errorhandler(err);
+        errorHandler(err);
     }
 };
 document.getElementById('btn-download').onclick = downloadJson;
@@ -165,12 +166,12 @@ document.getElementById('btn-copy').onclick = function () {
         displayJson(json);
         navigator.clipboard.writeText(json + '\n');
     } catch (err) {
-        errorhandler(err);
+        errorHandler(err);
     }
 };
 
 function generateJson() {
-    if (!bf.validate()) throw new InvalidCompanyRecord();
+    if (!bf.validate()) throw new InvalidCompanyRecord(bf.getData());
 
     let data = bf.getData();
     // trim the values of data that are strings
@@ -205,6 +206,6 @@ function downloadJson() {
         a.click();
         document.body.removeChild(a);
     } catch (err) {
-        errorhandler(err, data);
+        errorHandler(err);
     }
 }
