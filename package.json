@@ -6,7 +6,8 @@
     "author": "Benjamin Altpeter <hi@bn.al>",
     "license": "MIT",
     "devDependencies": {
-        "parcel-bundler": "^1.12.4"
+        "parcel-bundler": "^1.12.4",
+        "prettier": "^2.1.2"
     },
     "scripts": {
         "dev": "parcel src/*.html",
