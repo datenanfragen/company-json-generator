@@ -105,7 +105,7 @@ function loadSchema(schema) {
 
         element.addEventListener('keyup', function (event) {
             event.preventDefault();
-            if (event.keyCode === 13) {
+            if (event.key === 'Enter') {
                 formatPhoneNumber();
             }
         });
@@ -116,7 +116,7 @@ function loadSchema(schema) {
     // Add email helper
     getInputForLabelText('Email:').addEventListener('keyup', function (event) {
         event.preventDefault();
-        if (event.keyCode === 13 && confirm('Set suggested transport medium to email?')) {
+        if (event.key === 'Enter' && confirm('Set suggested transport medium to email?')) {
             var element = getInputForLabelText('Suggested transport medium:');
             element.value = 'email';
             triggerOnChange(element);
@@ -126,7 +126,7 @@ function loadSchema(schema) {
     // Add slug helpers
     getInputForLabelText('Website:').addEventListener('keyup', function (event) {
         event.preventDefault();
-        if (event.keyCode === 13 && confirm('Guess slug?')) {
+        if (event.key === 'Enter' && confirm('Guess slug?')) {
             var element = getInputForLabelText('Slug:');
             element.value = new URL(getInputForLabelText('Website:').value).hostname
                 .replace('www.', '')
@@ -136,7 +136,7 @@ function loadSchema(schema) {
     });
     getInputForLabelText('Name:').addEventListener('keyup', function (event) {
         event.preventDefault();
-        if (event.keyCode === 13 && confirm('Guess slug?')) {
+        if (event.key === 'Enter' && confirm('Guess slug?')) {
             var element = getInputForLabelText('Slug:');
             element.value = getInputForLabelText('Name:')
                 .value.toLowerCase()
