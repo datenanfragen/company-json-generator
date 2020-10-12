@@ -9,6 +9,13 @@ Every company (or other organization) in our database is represented by a single
 
 ![Screenshot of the tool](https://static.dacdn.de/other/screenshot-company-json.png)
 
+Steps to see working model:-
+1)Clone this repository.
+2)Run command in your command line: 'npm install'
+3)Once the above command completes executing.Run the command -  'npm run build'
+4)Then, run the command - 'npm run dev'.
+5)If all run without errors,goto http://localhost:1234/ to check functionality.
+
 Use it [here](https://company-json.netlify.app/). 
 
 Our company database holds the contact information of many companies (as well as other organisations) for your privacy-related requests. You can visit our company database on our [homepage](https://www.datarequests.org/company).
