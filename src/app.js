@@ -169,6 +169,17 @@ document.getElementById('btn-copy').onclick = function () {
         errorHandler(err);
     }
 };
+document.getElementById('btn-load').onclick = function (e) {
+    e.preventDefault();
+    const slug = document.getElementById('input-slug').value;
+    if (!/^[a-z0-9-]+$/.test(slug)) return;
+    fetch('https://raw.githubusercontent.com/datenanfragen/data/master/companies/' + slug + '.json')
+        .then((e) => e.text())
+        .then((text) => {
+            window.location = window.location.href.split('#')[0] + '#!doc=' + encodeURIComponent(text);
+            window.location.reload();
+        });
+};
 
 function generateJson() {
     let data = bf.getData();
