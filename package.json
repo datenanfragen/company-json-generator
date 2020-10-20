@@ -14,6 +14,7 @@
         "build": "parcel build src/*.html"
     },
     "dependencies": {
+        "bootbox": "^5.5.1",
         "bootstrap": "3",
         "brutusin-json-forms": "^0.0.0",
         "jquery": "^3.5.1",

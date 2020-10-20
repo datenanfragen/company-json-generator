@@ -5,6 +5,7 @@ require('brutusin-json-forms');
 require('brutusin-json-forms/dist/js/brutusin-json-forms-bootstrap');
 import Cookie from 'js-cookie';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import bootbox from 'bootbox';
 
 class InvalidCompanyRecord extends Error {
     constructor(json) {
@@ -18,9 +19,11 @@ function errorHandler(err) {
     if (err instanceof InvalidCompanyRecord) {
         document.getElementById('json-result').textContent =
             "Warning: Invalid record!\nWon't copy/download! \n\n" + JSON.stringify(err.json, null, 4);
-        alert('Warning: Record is not valid! Please correct before submitting.');
+        bootbox.alert(
+            "<p class='text-danger'><strong>Warning:</strong> Record is not valid! Please correct before submitting.</p>"
+        );
     } else {
-        throw err;
+        bootbox.alert(`<p class='text-danger'>${err}</p>`);
     }
 }
 
@@ -56,7 +59,7 @@ fetch(schema_url)
         loadSchema(out);
     })
     .catch((err) => {
-        throw err;
+        errorHandler(err);
     });
 
 function loadSchema(schema) {
@@ -75,6 +78,7 @@ function loadSchema(schema) {
     } catch (e) {
         template = null;
         console.error('Failed to parse JSON doc or template.', e);
+        errorHandler(e);
     }
 
     bf.render(container, template);
@@ -155,10 +159,12 @@ document.getElementById('btn-generate').onclick = function () {
 };
 document.getElementById('btn-download').onclick = downloadJson;
 document.getElementById('btn-clear').onclick = function () {
-    if (confirm('Do you really want to clear everything?')) {
-        window.location.hash = '';
-        window.location.reload(false);
-    }
+    bootbox.confirm('Do you really want to clear everything?', function (result) {
+        if (result) {
+            window.location.hash = '';
+            window.location.reload();
+        }
+    });
 };
 document.getElementById('btn-copy').onclick = function () {
     try {
