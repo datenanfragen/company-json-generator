@@ -158,7 +158,8 @@ function loadSchema(schema) {
         }
     } catch (e) {
         console.error('Failed to parse JSON doc or template.', e);
-        // @baltpeter Should we call initForm here again?
+        initializeForm(null);
+        alert("Failed to parse JSON doc or template.");
     }
 }
 
