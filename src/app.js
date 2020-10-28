@@ -146,6 +146,11 @@ function loadSchema(schema) {
                 .then((e) => e.json())
                 .then((json) => {
                     initializeForm(json);
+                })
+                .catch((e) => {
+                    console.error('Failed to retrieve or parse JSON doc.', e);
+                    initializeForm(null);
+                    alert('Failed to retrieve or parse JSON doc.');
                 });
         } else {
             let json = null;
@@ -159,7 +164,7 @@ function loadSchema(schema) {
     } catch (e) {
         console.error('Failed to parse JSON doc or template.', e);
         initializeForm(null);
-        alert("Failed to parse JSON doc or template.");
+        alert('Failed to parse JSON doc or template.');
     }
 }
 
