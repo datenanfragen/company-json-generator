@@ -59,24 +59,8 @@ fetch(schema_url)
         throw err;
     });
 
-function loadSchema(schema) {
-    var BrutusinForms = brutusin['json-forms'];
-    BrutusinForms.addDecorator(function (element, schema) {
-        element.placeholder = '';
-    });
-    bf = BrutusinForms.create(schema);
-    var container = document.getElementById('company-form');
-
-    var template;
-
-    try {
-        var json = parseFragmentArgs().doc || Cookie.get('record_template');
-        template = json ? JSON.parse(json) : null;
-    } catch (e) {
-        template = null;
-        console.error('Failed to parse JSON doc or template.', e);
-    }
-
+function initializeForm(template) {
+    const container = document.getElementById('company-form');
     bf.render(container, template);
 
     // Add phone and fax number helpers
@@ -146,6 +130,44 @@ function loadSchema(schema) {
     });
 }
 
+function loadSchema(schema) {
+    const BrutusinForms = brutusin['json-forms'];
+    BrutusinForms.addDecorator(function (element, schema) {
+        element.placeholder = '';
+    });
+    bf = BrutusinForms.create(schema);
+
+    try {
+        const fragmentArgs = parseFragmentArgs();
+        if (fragmentArgs.slug) {
+            fetch(
+                'https://raw.githubusercontent.com/datenanfragen/data/master/companies/' + fragmentArgs.slug + '.json'
+            )
+                .then((e) => e.json())
+                .then((json) => {
+                    initializeForm(json);
+                })
+                .catch((e) => {
+                    console.error('Failed to retrieve or parse JSON doc.', e);
+                    initializeForm(null);
+                    alert('Failed to retrieve or parse JSON doc.');
+                });
+        } else {
+            let json = null;
+            if (fragmentArgs.doc) {
+                json = JSON.parse(fragmentArgs.doc);
+            } else if (Cookie.get('record_template')) {
+                json = Cookie.get('record_template');
+            }
+            initializeForm(json);
+        }
+    } catch (e) {
+        console.error('Failed to parse JSON doc or template.', e);
+        initializeForm(null);
+        alert('Failed to parse JSON doc or template.');
+    }
+}
+
 document.getElementById('btn-generate').onclick = function () {
     try {
         displayJson(generateJson());
@@ -168,6 +190,14 @@ document.getElementById('btn-copy').onclick = function () {
     } catch (err) {
         errorHandler(err);
     }
+};
+document.getElementById('btn-load').onclick = function (e) {
+    e.preventDefault();
+    const slug = document.getElementById('input-slug').value;
+    if (!/^[a-z0-9-]+$/.test(slug)) return;
+    if (!confirm('Do you really want to load the entry from the database? This discards everything.')) return;
+    window.location = window.location.href.split('#')[0] + '#!slug=' + slug;
+    window.location.reload();
 };
 
 function generateJson() {
