@@ -195,6 +195,7 @@ document.getElementById('btn-load').onclick = function (e) {
     e.preventDefault();
     const slug = document.getElementById('input-slug').value;
     if (!/^[a-z0-9-]+$/.test(slug)) return;
+    if (!confirm('Do you really want to load the entry from the Database? This discards everything.')) return;
     window.location = window.location.href.split('#')[0] + '#!slug=' + slug;
     window.location.reload();
 };
