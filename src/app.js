@@ -157,7 +157,7 @@ function loadSchema(schema) {
             if (fragmentArgs.doc) {
                 json = JSON.parse(fragmentArgs.doc);
             } else if (Cookie.get('record_template')) {
-                json = Cookie.get('record_template');
+                json = JSON.parse(Cookie.get('record_template'));
             }
             initializeForm(json);
         }
