@@ -9,7 +9,7 @@ Every company (or other organization) in our database is represented by a single
 
 ![Screenshot of the tool](https://static.dacdn.de/other/screenshot-company-json.png)
 
-Use it [here](https://company-json.netlify.app/). 
+Use it [here](https://company-json.datenanfragen.de/). 
 
 Our company database holds the contact information of many companies (as well as other organisations) for your privacy-related requests. You can visit our company database on our [homepage](https://www.datarequests.org/company).
 

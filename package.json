@@ -16,6 +16,7 @@
     "dependencies": {
         "bootstrap": "3",
         "brutusin-json-forms": "^0.0.0",
+        "dattel-client": "^0.8.3",
         "jquery": "^3.5.1",
         "js-cookie": "^2.2.1",
         "libphonenumber-js": "^1.7.58"
