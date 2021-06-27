@@ -87,9 +87,9 @@ function initializeForm(template) {
 
         link.onclick = formatPhoneNumber;
 
-        element.addEventListener('keyup', function (event) {
-            event.preventDefault();
+        element.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
+                event.preventDefault();
                 formatPhoneNumber();
             }
         });
@@ -98,9 +98,9 @@ function initializeForm(template) {
     });
 
     // Add email helper
-    getInputForLabelText('Email:').addEventListener('keyup', function (event) {
-        event.preventDefault();
+    getInputForLabelText('Email:').addEventListener('keydown', function (event) {
         if (event.key === 'Enter' && confirm('Set suggested transport medium to email?')) {
+            event.preventDefault();
             var element = getInputForLabelText('Suggested transport medium:');
             element.value = 'email';
             triggerOnChange(element);
@@ -108,9 +108,9 @@ function initializeForm(template) {
     });
 
     // Add slug helpers
-    getInputForLabelText('Website:').addEventListener('keyup', function (event) {
-        event.preventDefault();
+    getInputForLabelText('Website:').addEventListener('keydown', function (event) {
         if (event.key === 'Enter' && confirm('Guess slug?')) {
+            event.preventDefault();
             var element = getInputForLabelText('Slug:');
             element.value = new URL(getInputForLabelText('Website:').value).hostname
                 .replace('www.', '')
@@ -118,9 +118,9 @@ function initializeForm(template) {
             triggerOnChange(element);
         }
     });
-    getInputForLabelText('Name:').addEventListener('keyup', function (event) {
-        event.preventDefault();
+    getInputForLabelText('Name:').addEventListener('keydown', function (event) {
         if (event.key === 'Enter' && confirm('Guess slug?')) {
+            event.preventDefault();
             var element = getInputForLabelText('Slug:');
             element.value = getInputForLabelText('Name:')
                 .value.toLowerCase()
