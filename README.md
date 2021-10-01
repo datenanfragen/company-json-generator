@@ -19,6 +19,6 @@ First of all, thank you very much for taking the time to contribute! Contributio
 
 We warmly welcome issues and pull requests through GitHub.
 
-Please be aware that by contributing, you agree for your work to be released under the Creative Commons CC0 1.0 Universal license, as specified in the `LICENSE` file.
+Please be aware that by contributing, you agree for your work to be released under the Creative Commons CC0 1.0 Universal license, as specified in the [`LICENSE`](https://github.com/datenanfragen/company-json-generator/blob/master/LICENSE) file.
 
 If you are interested in contributing in other ways besides coding, we can also really use your help. Have a look at our [contribute page](https://www.datarequests.org/contribute) for more details.
