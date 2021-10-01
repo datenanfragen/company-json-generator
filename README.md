@@ -7,7 +7,7 @@ Through our website, we offer a generator for GDPR requests as well as access to
 
 Every company (or other organization) in our database is represented by a single JSON file (named after the slug in the JSON). The JSON has to follow the specific schema. This tool provides you the convenience to generate those JSONs by filling a simple form. The format is explained [here](https://github.com/datenanfragen/data/#data-formats).
 
-![Screenshot of the tool](https://static.dacdn.de/other/screenshot-company-json.png)
+![Datenanfragen.de company JSON](https://static.dacdn.de/other/screenshot-company-json.png)
 
 Use it [here](https://company-json.datenanfragen.de/). 
 
