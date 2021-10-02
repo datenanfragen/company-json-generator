@@ -152,7 +152,20 @@ function loadSchema(schema) {
                     initializeForm(null);
                     alert('Failed to retrieve or parse JSON doc.');
                 });
-        } else {
+        }
+        else if(fragmentArgs.url){
+            fetch(fragmentArgs.url)
+                .then((e) => e.json())
+                .then((json) => {
+                    initializeForm(json);
+            })
+            .catch((e) => {
+                console.error('Failed to retrieve data from url', e);
+                initializeForm(null);
+                alert('Failed to retrieve or parse JSON doc.');
+            });
+        } 
+        else {
             let json = null;
             if (fragmentArgs.doc) {
                 json = JSON.parse(fragmentArgs.doc);
@@ -161,12 +174,14 @@ function loadSchema(schema) {
             }
             initializeForm(json);
         }
+        
     } catch (e) {
         console.error('Failed to parse JSON doc or template.', e);
         initializeForm(null);
         alert('Failed to parse JSON doc or template.');
     }
 }
+
 
 document.getElementById('btn-generate').onclick = function () {
     try {
