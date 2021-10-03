@@ -139,10 +139,12 @@ function loadSchema(schema) {
 
     try {
         const fragmentArgs = parseFragmentArgs();
-        if (fragmentArgs.slug) {
-            fetch(
-                'https://raw.githubusercontent.com/datenanfragen/data/master/companies/' + fragmentArgs.slug + '.json'
-            )
+        if (fragmentArgs.slug || fragmentArgs.url) {
+            const url = fragmentArgs.slug
+                ? `https://raw.githubusercontent.com/datenanfragen/data/master/companies/${fragmentArgs.slug}.json`
+                : fragmentArgs.url;
+
+            fetch(url)
                 .then((e) => e.json())
                 .then((json) => {
                     initializeForm(json);
