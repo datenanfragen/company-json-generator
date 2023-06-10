@@ -128,6 +128,38 @@ function initializeForm(template) {
             triggerOnChange(element);
         }
     });
+
+    function decorateLink(elem) {
+        const old_a = elem.parentNode.querySelector('a');
+        if (old_a) {
+            old_a.href = elem.value;
+            return;
+        }
+        elem.parentNode.style.position = 'relative';
+        const link = document.createElement('a');
+        link.className = 'glyphicon glyphicon-link';
+        link.style.position = 'absolute';
+        link.style.top = '12px';
+        link.style.right = '12px';
+        link.style.fontSize = '16px';
+        link.title = 'Field input as link';
+        link.href = elem.value;
+        elem.parentNode.repl;
+        elem.parentNode.appendChild(link);
+    }
+    // Add link helper for sources
+    const elems = [
+        getInputForLabelText('PGP URL:'),
+        getInputForLabelText('Website:'),
+        ...jQuery("label:contains('Sources:')").parent().parent().find('input').toArray(),
+    ];
+
+    for (const elem of elems) {
+        decorateLink(elem);
+        elem.addEventListener('keydown', (_) => {
+            decorateLink(elem);
+        });
+    }
 }
 
 function loadSchema(schema) {
