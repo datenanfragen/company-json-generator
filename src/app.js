@@ -131,11 +131,15 @@ function initializeForm(template) {
 
     function decorateLink(elem) {
         const old_a = elem.parentNode.querySelector('a');
+        if (!elem.value) {
+            if (old_a) elem.parentNode.removeChild(old_a);
+            return;
+        }
         if (old_a) {
             old_a.href = elem.value;
             return;
         }
-        if (!elem.value) return;
+
         elem.parentNode.style.position = 'relative';
         const link = document.createElement('a');
         link.className = 'glyphicon glyphicon-link';
@@ -145,7 +149,7 @@ function initializeForm(template) {
         link.style.fontSize = '16px';
         link.title = 'Field input as link';
         link.href = elem.value;
-        link.target = "_blank";
+        link.target = '_blank';
         elem.parentNode.repl;
         elem.parentNode.appendChild(link);
     }
@@ -153,6 +157,7 @@ function initializeForm(template) {
     const elems = [
         getInputForLabelText('PGP URL:'),
         getInputForLabelText('Website:'),
+        getInputForLabelText('Web form:'),
         ...jQuery("label:contains('Sources:')").parent().parent().find('input').toArray(),
     ];
 
