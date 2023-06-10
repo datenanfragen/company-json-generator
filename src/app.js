@@ -158,9 +158,7 @@ function initializeForm(template) {
 
     for (const elem of elems) {
         decorateLink(elem);
-        elem.addEventListener('keyup', () => {
-            decorateLink(elem);
-        });
+        elem.addEventListener('keyup', () => decorateLink(elem));
     }
 }
 
