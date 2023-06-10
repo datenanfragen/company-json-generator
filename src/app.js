@@ -135,6 +135,7 @@ function initializeForm(template) {
             old_a.href = elem.value;
             return;
         }
+        if (!elem.value) return;
         elem.parentNode.style.position = 'relative';
         const link = document.createElement('a');
         link.className = 'glyphicon glyphicon-link';
@@ -144,6 +145,7 @@ function initializeForm(template) {
         link.style.fontSize = '16px';
         link.title = 'Field input as link';
         link.href = elem.value;
+        link.target = "_blank";
         elem.parentNode.repl;
         elem.parentNode.appendChild(link);
     }
@@ -156,7 +158,7 @@ function initializeForm(template) {
 
     for (const elem of elems) {
         decorateLink(elem);
-        elem.addEventListener('keydown', (_) => {
+        elem.addEventListener('keyup', () => {
             decorateLink(elem);
         });
     }
